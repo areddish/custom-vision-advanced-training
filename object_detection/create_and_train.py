@@ -1,6 +1,5 @@
 import os
-import config
-
+from config import config
 from azure.cognitiveservices.vision.customvision.training import CustomVisionTrainingClient
 from azure.cognitiveservices.vision.customvision.training.models import *
 
@@ -12,7 +11,7 @@ SAMPLE_PROJECT_NAME = config["ProjectName"]
 PUBLISH_ITERATION_NAME = config["PublishName"]
 ENDPOINT = config["Endpoint"]
 
-IMAGES_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), "datasets", "train")
+IMAGES_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dataset", "train")
 
 # Create an API client
 trainer = CustomVisionTrainingClient(TRAINING_KEY, endpoint=ENDPOINT)
@@ -79,9 +78,9 @@ for tag in tags:
     tag_id = trainer.create_tag(project.id, tag).id
     tag_dir = os.path.join(IMAGES_FOLDER, tag)
     for image in os.listdir(tag_dir):
-        print (f"Uploading: {image} with tag {tag}")
         with open(os.path.join(tag_dir, image), mode="rb") as img_data: 
             x,y,w,h = image_regions[image]
+            print (f"Uploading: {image} with tag {tag} and region {x},{y},{w},{h}")
             regions = [ Region(tag_id=tag_id, left=x,top=y,width=w,height=h) ]
             trainer.create_images_from_files(project.id, images=[ImageFileCreateEntry(name=image, contents=img_data.read(), regions=regions)])
 

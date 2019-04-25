@@ -1,5 +1,5 @@
 import os
-import config
+from config import config
 from azure.cognitiveservices.vision.customvision.training import CustomVisionTrainingClient
 from azure.cognitiveservices.vision.customvision.training.models import *
 from azure.cognitiveservices.vision.customvision.prediction import CustomVisionPredictionClient
@@ -12,19 +12,13 @@ PUBLISH_ITERATION_NAME = config["PublishName"]
 ENDPOINT = config["Endpoint"]
 
 # Image folder with data sets
-IMAGES_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), "datasets", "test")
+IMAGES_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dataset", "test")
 
 # Create an API client
 trainer = CustomVisionTrainingClient(TRAINING_KEY, endpoint=ENDPOINT)
 
 # Get our project we trained
-project = None
-print (f"Finding project: {SAMPLE_PROJECT_NAME}")
-for p in trainer.get_projects():
-    if p.name == SAMPLE_PROJECT_NAME:
-        project = p
-        break
-
+project = next(project for project in trainer.get_projects() if project.name == SAMPLE_PROJECT_NAME)
 if not project:
     print (f"Couldn't find project {SAMPLE_PROJECT_NAME}")
     exit(-1)

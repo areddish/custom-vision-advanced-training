@@ -1,5 +1,5 @@
 import os
-import config
+from config import config
 
 from azure.cognitiveservices.vision.customvision.training import CustomVisionTrainingClient
 from azure.cognitiveservices.vision.customvision.training.models import *
@@ -12,7 +12,7 @@ SAMPLE_PROJECT_NAME = config["ProjectName"]
 PUBLISH_ITERATION_NAME = config["PublishName"]
 ENDPOINT = config["Endpoint"]
 
-IMAGES_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), "datasets", "train")
+IMAGES_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dataset", "train")
 
 # Create an API client
 trainer = CustomVisionTrainingClient(TRAINING_KEY, endpoint=ENDPOINT)

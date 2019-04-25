@@ -1,4 +1,4 @@
-import config
+from config import config
 
 from azure.cognitiveservices.vision.customvision.training import CustomVisionTrainingClient
 from azure.cognitiveservices.vision.customvision.training.models import *
@@ -14,24 +14,13 @@ ENDPOINT = config["Endpoint"]
 trainer = CustomVisionTrainingClient(TRAINING_KEY, endpoint=ENDPOINT)
 
 # Get our project we trained
-project = None
-print (f"Finding project: {SAMPLE_PROJECT_NAME}")
-for p in trainer.get_projects():
-    if p.name == SAMPLE_PROJECT_NAME:
-        project = p
-        break
-
+project = next(project for project in trainer.get_projects() if project.name == SAMPLE_PROJECT_NAME)
 if not project:
     print (f"Couldn't find project {SAMPLE_PROJECT_NAME}")
     exit(-1)
 
 # Get the first trained iteration and publish that, change this if you want to publish a different iteration.
-iteration = None
-for iter in trainer.get_iterations(project.id):
-    if iter.status == "Complete":
-        iteration = iter
-        break
-
+iteration = next(iter for iter in trainer.get_iterations(project.id) if iter.status == "Completed")
 if not iteration:
     print (f"Couldn't find a trained iteration in {SAMPLE_PROJECT_NAME}")
     exit(-1)
