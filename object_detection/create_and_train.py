@@ -88,4 +88,4 @@ for tag in tags:
 # Advanced training is triggered by passing the advanced training type and specifying a budget.
 # You can optionally specify a notification email address to receive and email when training completes.
 print ("Starting Training...")
-trainer.train_project(project.id, training_type=TrainingType.advanced, reserved_budget_in_hours=9, notification_email_address=NOTIFY_EMAIL)
+trainer.train_project(project.id, training_type=TrainingType.advanced, reserved_budget_in_hours=BUDGET_IN_HOURS = config["Budget"], notification_email_address=NOTIFY_EMAIL)

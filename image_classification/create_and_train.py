@@ -11,6 +11,7 @@ NOTIFY_EMAIL = config["NotifyEmail"]
 SAMPLE_PROJECT_NAME = config["ProjectName"]
 PUBLISH_ITERATION_NAME = config["PublishName"]
 ENDPOINT = config["Endpoint"]
+BUDGET_IN_HOURS = config["Budget"]
 
 IMAGES_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dataset", "train")
 
@@ -39,4 +40,4 @@ for tag in tags:
 # Advanced training is triggered by passing the advanced training type and specifying a budget.
 # You can optionally specify a notification email address to receive and email when training completes.
 print ("Starting Training...")
-trainer.train_project(project.id, training_type=TrainingType.advanced, reserved_budget_in_hours=9, notification_email_address=NOTIFY_EMAIL)
+trainer.train_project(project.id, training_type=TrainingType.advanced, reserved_budget_in_hours=BUDGET_IN_HOURS, notification_email_address=NOTIFY_EMAIL)
